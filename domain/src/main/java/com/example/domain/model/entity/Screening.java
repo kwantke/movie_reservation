@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 @Getter
 @Entity
-@Table(name = "screeing")
+@Table(name = "screening")
 public class Screening extends AuditingFields {
 
   @Id
