@@ -27,7 +27,7 @@ public record MovieResponseDto(
             movie.getReleaseDate(),
             movie.getThumbnailUrl(),
             movie.getRuntimeMinutes(),
-            movie.getGenre(),
+            movie.getGenre().name(),
             movie.getScreenings().stream().map(ScreeningResponseDto::fromEntity).toList()
     );
   }
