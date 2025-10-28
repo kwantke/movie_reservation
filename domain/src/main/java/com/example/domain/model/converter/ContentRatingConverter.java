@@ -16,6 +16,6 @@ public class ContentRatingConverter implements AttributeConverter<ContentRating,
   @Override
   public ContentRating convertToEntityAttribute(String dbData) {
     assert dbData != null : "[ERROR] ContentRating from DB value is null.";
-    return null;
+    return ContentRating.fromDbValue(dbData);
   }
 }

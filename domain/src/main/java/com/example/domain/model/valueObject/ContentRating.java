@@ -1,5 +1,7 @@
 package com.example.domain.model.valueObject;
 
+import com.example.domain.model.exception.CustomException;
+import com.example.domain.model.exception.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -21,5 +23,22 @@ public enum ContentRating {
   private final int ageLimit;
   private final String dbValue;
 
+  /*
+  MAP = {
+    "A" -> ContentRating.ALL,
+    "B" -> ContentRating.TWELVE,
+    "C" -> ContentRating.FIFTEEN,
+    "D" -> ContentRating.ADULT
+  }
+  */
+  private static final Map<String, ContentRating> MAP =
+          Stream.of(values()).collect(Collectors.toMap(ContentRating::getDbValue, contentRating -> contentRating));
 
+  public static ContentRating fromDbValue(String dbValue) {
+    ContentRating contentRating = MAP.get(dbValue);
+    if (dbValue == null) {
+      throw new CustomException(ErrorCode.INVALID_CONTENT_RATING);
+    }
+    return contentRating;
+  }
 }

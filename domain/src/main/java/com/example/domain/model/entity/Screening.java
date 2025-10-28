@@ -25,9 +25,6 @@ public class Screening extends AuditingFields {
   private Theater theater;
 
   @Column(nullable = false)
-  private LocalDate screeningDate;
-
-  @Column(nullable = false)
   private LocalTime startTime;
 
   @Column(nullable = false)
