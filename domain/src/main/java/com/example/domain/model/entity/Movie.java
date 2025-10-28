@@ -7,12 +7,15 @@ import com.example.domain.model.valueObject.ContentRating;
 import com.example.domain.model.valueObject.Genre;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Entity
 public class Movie extends AuditingFields {
@@ -44,4 +47,28 @@ public class Movie extends AuditingFields {
   @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private List<Screening> screenings = new ArrayList<>();
 
+
+  private Movie(String title,
+                ContentRating contentRating,
+                LocalDate releaseDate,
+                String thumbnailUrl,
+                int runtimeMinutes,
+                Genre genre) {
+    this.title = title;
+    this.contentRating = contentRating;
+    this.releaseDate = releaseDate;
+    this.thumbnailUrl = thumbnailUrl;
+    this.runtimeMinutes = runtimeMinutes;
+    this.genre = genre;
+  }
+
+  public static Movie of(String title,
+                         ContentRating contentRating,
+                         LocalDate releaseDate,
+                         String thumbnailUrl,
+                         int runtimeMinutes,
+                         Genre genre) {
+
+    return new Movie(title, contentRating, releaseDate, thumbnailUrl, runtimeMinutes, genre);
+  }
 }

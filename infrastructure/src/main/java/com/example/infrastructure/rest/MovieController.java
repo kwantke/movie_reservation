@@ -1,12 +1,13 @@
 package com.example.infrastructure.rest;
 
+import com.example.application.dto.request.MovieRequestDto;
 import com.example.application.dto.response.MovieResponseDto;
 import com.example.application.port.in.MovieServicePort;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +25,13 @@ public class MovieController {
     List<MovieResponseDto> movies = movieServicePort.getMovies();
     return ResponseEntity.ok(movies);
 
+  }
+
+  @PostMapping
+  public ResponseEntity<List<MovieResponseDto>> createMovie(
+          @RequestBody @Valid MovieRequestDto movieRequestDto
+  ) {
+    movieServicePort.createMovie(movieRequestDto);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 }

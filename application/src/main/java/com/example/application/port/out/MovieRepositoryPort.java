@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MovieRepositoryPort {
   List<Movie> findMovies();
+
+  void save(Movie movie);
 }

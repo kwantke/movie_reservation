@@ -17,4 +17,9 @@ public class MovieJpaRepositoryAdapter implements MovieRepositoryPort {
   public List<Movie> findMovies() {
     return movieJpaRepository.findAll();
   }
+
+  @Override
+  public void save(Movie movie) {
+    movieJpaRepository.save(movie);
+  }
 }
