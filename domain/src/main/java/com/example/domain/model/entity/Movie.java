@@ -2,7 +2,9 @@ package com.example.domain.model.entity;
 
 import com.example.domain.model.base.AuditingFields;
 import com.example.domain.model.converter.ContentRatingConverter;
+import com.example.domain.model.converter.GenreConverter;
 import com.example.domain.model.valueObject.ContentRating;
+import com.example.domain.model.valueObject.Genre;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,9 +37,9 @@ public class Movie extends AuditingFields {
   @Setter
   private int runtimeMinutes;
 
-  @Setter
+  @Convert(converter = GenreConverter.class)
   @Column(nullable = false)
-  private String genre;
+  private Genre genre;
 
   @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private List<Screening> screenings = new ArrayList<>();
