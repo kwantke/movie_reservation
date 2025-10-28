@@ -1,5 +1,7 @@
 package com.example.application.exception;
 
+import com.example.domain.model.exception.CustomException;
+import com.example.domain.model.exception.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

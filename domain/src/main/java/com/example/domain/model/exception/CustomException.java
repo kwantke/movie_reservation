@@ -1,5 +1,6 @@
-package com.example.application.exception;
+package com.example.domain.model.exception;
 
+import com.example.domain.model.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
