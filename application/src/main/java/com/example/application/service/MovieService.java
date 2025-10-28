@@ -7,6 +7,7 @@ import com.example.application.port.in.MovieServicePort;
 import com.example.application.port.out.MovieRepositoryPort;
 import com.example.domain.model.entity.Movie;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -15,6 +16,15 @@ import java.util.List;
 public class MovieService implements MovieServicePort {
 
   private final MovieRepositoryPort movieRepositoryPort;
+
+  @Cacheable(value = "movies", key = "#movieSearchCriteria.title + '-' + #movieSearchCriteria.genre")
+  @Override
+  public List<MovieResponseDto> findMovies(MovieSearchCriteria movieSearchCriteria) {
+
+    return movieRepositoryPort.findBy(movieSearchCriteria).stream()
+            .map(MovieResponseDto::fromEntity)
+            .toList();
+  }
 
   @Override
   public void createMovie(MovieRequestDto movieRequestDto) {
@@ -26,14 +36,6 @@ public class MovieService implements MovieServicePort {
             movieRequestDto.genre());
 
     movieRepositoryPort.save(movie);
-  }
-
-  @Override
-  public List<MovieResponseDto> findMovies(MovieSearchCriteria criteria) {
-
-    return movieRepositoryPort.findBy(criteria).stream()
-            .map(MovieResponseDto::fromEntity)
-            .toList();
   }
 }
 

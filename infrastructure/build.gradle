@@ -12,7 +12,7 @@ dependencies {
   implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
   annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 
-
+  // QueryDsl
   implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
   implementation "com.querydsl:querydsl-core"
   annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
@@ -22,6 +22,9 @@ dependencies {
   annotationProcessor "jakarta.annotation:jakarta.annotation-api"
   annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-  // mysql
+  // MySQL
   runtimeOnly 'com.mysql:mysql-connector-j' // DB 드라이버
+
+  // Redis
+  implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
