@@ -22,7 +22,7 @@ public class Movie extends AuditingFields {
   @Column(nullable = false)
   private String title;
 
-  @Enumerated(EnumType.STRING)
+  @Convert(converter = ContentRatingConverter.class)
   @Column(nullable = false)
   private ContentRating contentRating;
 
