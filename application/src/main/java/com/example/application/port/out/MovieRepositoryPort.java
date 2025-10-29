@@ -4,6 +4,7 @@ import com.example.application.dto.request.MovieSearchCriteria;
 import com.example.domain.model.entity.Movie;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieRepositoryPort {
   List<Movie> findMovies();
@@ -11,4 +12,6 @@ public interface MovieRepositoryPort {
   void save(Movie movie);
 
   List<Movie> findBy(MovieSearchCriteria criteria);
+
+  Optional<Movie> findById(Long movieId);
 }

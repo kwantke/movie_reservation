@@ -1,16 +1,17 @@
 package com.example.infrastructure.db.adapter;
 
 import com.example.application.dto.request.MovieSearchCriteria;
-import com.example.application.dto.response.MovieResponseDto;
 import com.example.application.port.out.MovieRepositoryPort;
 import com.example.domain.model.entity.Movie;
 import com.example.infrastructure.db.MovieJpaRepository;
+import com.example.infrastructure.db.ScreeningJpaRepository;
 import com.example.infrastructure.db.querydsl.MovieRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -18,6 +19,7 @@ public class MovieJpaRepositoryAdapter implements MovieRepositoryPort {
 
   private final MovieJpaRepository movieJpaRepository;
   private final MovieRepositoryCustom movieRepositoryCustom;
+
   @Override
   public List<Movie> findMovies() {
     return movieJpaRepository.findAll();
@@ -38,5 +40,10 @@ public class MovieJpaRepositoryAdapter implements MovieRepositoryPort {
     */
     Sort sort = Sort.by("releaseDate").descending();
     return movieRepositoryCustom.findByFilters(criteria, sort);
+  }
+
+  @Override
+  public Optional<Movie> findById(Long movieId) {
+    return movieJpaRepository.findById(movieId);
   }
 }
