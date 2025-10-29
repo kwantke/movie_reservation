@@ -1,6 +1,7 @@
 package com.example.application.dto.response;
 
 import com.example.domain.model.entity.Movie;
+import com.example.domain.model.projection.MoviePorjection;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,6 +30,19 @@ public record MovieResponseDto(
             movie.getRuntimeMinutes(),
             movie.getGenre().name(),
             movie.getScreenings().stream().map(ScreeningResponseDto::fromEntity).toList()
+    );
+  }
+
+  public static MovieResponseDto fromProjection(MoviePorjection movie) {
+    return new MovieResponseDto(
+            movie.getId(),
+            movie.getTitle(),
+            movie.getContentRating(),
+            movie.getReleaseDate(),
+            movie.getThumbnailUrl(),
+            movie.getRuntimeMinutes(),
+            movie.getGenre(),
+            movie.getScreenings().stream().map(ScreeningResponseDto::fromProjection).toList()
     );
   }
 }
