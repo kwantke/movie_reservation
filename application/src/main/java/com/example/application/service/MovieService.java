@@ -11,8 +11,8 @@ import com.example.application.port.out.TheaterRepositoryPort;
 import com.example.domain.model.entity.Movie;
 import com.example.domain.model.entity.Screening;
 import com.example.domain.model.entity.Theater;
-import com.example.domain.model.exception.CustomException;
-import com.example.domain.model.exception.ErrorCode;
+import com.example.domain.exception.CustomException;
+import com.example.domain.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -63,6 +63,5 @@ public class MovieService implements MovieServicePort {
 
     screeningRepositoryPort.save(screening);
   }
-
 }
 

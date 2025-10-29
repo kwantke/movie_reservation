@@ -5,7 +5,7 @@ import com.example.application.dto.request.MovieSearchCriteria;
 import com.example.application.dto.request.ScreeningRequestDto;
 import com.example.application.dto.response.MovieResponseDto;
 import com.example.application.port.in.MovieServicePort;
-import com.example.domain.model.validation.MovieValidation;
+import com.example.domain.validation.MovieValidation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.example.domain.model.valueObject;
 
-import com.example.domain.model.exception.CustomException;
-import com.example.domain.model.exception.ErrorCode;
+import com.example.domain.exception.CustomException;
+import com.example.domain.exception.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

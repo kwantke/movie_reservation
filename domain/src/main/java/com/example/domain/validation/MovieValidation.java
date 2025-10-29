@@ -1,7 +1,7 @@
-package com.example.domain.model.validation;
+package com.example.domain.validation;
 
-import com.example.domain.model.exception.CustomException;
-import com.example.domain.model.exception.ErrorCode;
+import com.example.domain.exception.CustomException;
+import com.example.domain.exception.ErrorCode;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.Charset;
