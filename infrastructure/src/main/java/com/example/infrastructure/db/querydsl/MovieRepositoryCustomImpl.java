@@ -51,7 +51,7 @@ public class MovieRepositoryCustomImpl extends QuerydslRepositorySupport impleme
             .leftJoin(movie.screenings, screening).fetchJoin()
             .leftJoin(screening.theater, theater).fetchJoin()
             .where(builder)
-            .orderBy();
+            ;
 
 
     // 동적 정렬 적용
