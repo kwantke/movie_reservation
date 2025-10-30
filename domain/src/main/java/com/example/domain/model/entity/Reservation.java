@@ -25,4 +25,17 @@ public class Reservation extends AuditingFields {
   @OneToMany(mappedBy = "reservation")
   private List<ReservedSeat> reservedSeats;
 
+  protected Reservation() {}
+
+  private Reservation(Screening screening, Member member) {
+    this.screening = screening;
+    this.member = member;
+  }
+  public static Reservation of(Screening screening, Member member) {
+    return new Reservation(screening, member);
+  }
+
+  public void addReservedSeats(List<ReservedSeat> seats) {
+    this.reservedSeats.addAll(seats);
+  }
 }

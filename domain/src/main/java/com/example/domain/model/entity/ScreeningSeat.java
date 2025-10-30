@@ -1,5 +1,7 @@
 package com.example.domain.model.entity;
 
+import com.example.domain.exception.CustomException;
+import com.example.domain.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -18,4 +20,15 @@ public class ScreeningSeat {
   @ManyToOne
   @JoinColumn(nullable = false)
   private Seat seat;
+
+  private boolean reserved;
+  @Version
+  private int version;
+
+  public void reserve() {
+    if (reserved) {
+      throw new CustomException(ErrorCode.SEAT_ALREADY_RESERVED);
+    }
+    this.reserved = true;
+  }
 }

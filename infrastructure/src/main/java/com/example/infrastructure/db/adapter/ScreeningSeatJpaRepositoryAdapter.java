@@ -18,4 +18,9 @@ public class ScreeningSeatJpaRepositoryAdapter implements ScreeningSeatRepositor
   public List<ScreeningSeat> findByScreeningAndSeatIds(Screening screening, List<Long> seatIds) {
     return screeningSeatJpaRepository.findByScreeningAndSeat_IdIn(screening, seatIds);
   }
+
+  @Override
+  public void saveAndFlush(ScreeningSeat screeningSeat) {
+    screeningSeatJpaRepository.saveAndFlush(screeningSeat);
+  }
 }

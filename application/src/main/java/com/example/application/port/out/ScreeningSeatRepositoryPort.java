@@ -8,4 +8,6 @@ import java.util.List;
 public interface ScreeningSeatRepositoryPort {
 
   List<ScreeningSeat> findByScreeningAndSeatIds(Screening screening, List<Long> seatIds);
+
+  void saveAndFlush(ScreeningSeat screeningSeat);
 }
