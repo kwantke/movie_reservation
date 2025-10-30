@@ -26,13 +26,18 @@ public class MovieService implements MovieServicePort {
   private final TheaterRepositoryPort theaterRepositoryPort;
   private final ScreeningRepositoryPort screeningRepositoryPort;
 
-  @Cacheable(value = "movies", key = "#movieSearchCriteria.title + '-' + #movieSearchCriteria.genre")
+  @Cacheable(
+          value = "movies",
+          key = "T(java.util.Objects).toString(#movieSearchCriteria.title, 'none') + '-' + " +
+                  "T(java.util.Objects).toString(#movieSearchCriteria.genre, 'none')"
+  )
   @Override
   public List<MovieResponseDto> findMovies(MovieSearchCriteria movieSearchCriteria) {
 
-    return movieRepositoryPort.findBy(movieSearchCriteria).stream()
+    List<MovieResponseDto> result = movieRepositoryPort.findBy(movieSearchCriteria).stream()
             .map(MovieResponseDto::fromEntity)
             .toList();
+    return result;
   }
 
   @Override

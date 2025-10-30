@@ -3,6 +3,7 @@ package com.example.application.dto.response;
 import com.example.domain.model.entity.Movie;
 import com.example.domain.model.projection.MoviePorjection;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public record MovieResponseDto(
         String genre,
         List<ScreeningResponseDto> screenings
 
-) {
+) implements Serializable {
 
   // 엔티티를 dto로 변환하는 팩토리 메서드 추가
   public static MovieResponseDto fromEntity(Movie movie) {
