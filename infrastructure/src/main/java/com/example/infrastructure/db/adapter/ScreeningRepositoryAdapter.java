@@ -6,6 +6,8 @@ import com.example.infrastructure.db.ScreeningJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Repository
 public class ScreeningRepositoryAdapter implements ScreeningRepositoryPort {
@@ -14,5 +16,10 @@ public class ScreeningRepositoryAdapter implements ScreeningRepositoryPort {
   @Override
   public void save(Screening screening) {
     screeningJpaRepository.save(screening);
+  }
+
+  @Override
+  public Optional<Screening> findById(Long id) {
+    return screeningJpaRepository.findById(id);
   }
 }
