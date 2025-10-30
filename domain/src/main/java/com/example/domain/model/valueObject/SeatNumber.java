@@ -2,9 +2,11 @@ package com.example.domain.model.valueObject;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
+import lombok.Getter;
 
 import java.util.Set;
 
+@Getter
 @Embeddable
 public class SeatNumber {
 
@@ -12,6 +14,6 @@ public class SeatNumber {
   private static final int MIN_SEAT_NUMBER = 1;
   private static final int MAX_SEAT_NUMBER = 5;
 
-  private Character setRow;
-  private int seatColum;
+  private Character seatRow;
+  private int seatColumn;
 }
