@@ -22,6 +22,6 @@ public class ReservationController {
 
     ReservationResponseDto response = reservationServicePort.create(reservationRequestDto);
 
-            return null;
+    return ResponseEntity.ok(response);
   }
 }

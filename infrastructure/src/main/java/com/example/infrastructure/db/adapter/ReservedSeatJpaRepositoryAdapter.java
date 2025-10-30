@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class ReservedSeatJpaRepositoryAdapter implements ReservedSeatRepositoryPort {
 
-  ReservedSeatJpaRepository reservedSeatJpaRepository;
+  private final ReservedSeatJpaRepository reservedSeatJpaRepository;
   @Override
   public void saveAll(List<ReservedSeat> reservedSeats) {
     reservedSeatJpaRepository.saveAll(reservedSeats);

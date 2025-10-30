@@ -37,7 +37,7 @@ public class ReservationService implements ReservationServicePort {
 
 
 
-    return null;
+    return ReservationResponseDto.fromEntity(reservation);
   }
 
   /** 예약 및 좌석 저장 */

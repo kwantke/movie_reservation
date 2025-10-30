@@ -5,5 +5,5 @@ Content-Type: application/json
 {
   "screeningId": 1,
   "memberId": 1,
-  "seatIds": [3]
+  "seatIds": [1,2]
 }

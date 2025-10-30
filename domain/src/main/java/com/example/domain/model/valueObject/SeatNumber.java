@@ -16,4 +16,8 @@ public class SeatNumber {
 
   private Character seatRow;
   private int seatColumn;
+
+  public String toString() {
+    return seatRow.toString() + seatColumn;
+  }
 }

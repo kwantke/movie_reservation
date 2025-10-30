@@ -4,6 +4,7 @@ import com.example.domain.model.base.AuditingFields;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,7 +24,7 @@ public class Reservation extends AuditingFields {
   private Member member;
 
   @OneToMany(mappedBy = "reservation")
-  private List<ReservedSeat> reservedSeats;
+  private List<ReservedSeat> reservedSeats = new ArrayList<>();
 
   protected Reservation() {}
 
