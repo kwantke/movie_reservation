@@ -1,4 +1,4 @@
-package com.example.domain.model.converter;
+package com.example.domain.converter;
 
 import com.example.domain.model.valueObject.Genre;
 import jakarta.persistence.AttributeConverter;

@@ -14,7 +14,7 @@ public record MovieRequestDto (
         @Size(min = 1, message = "Title must not be empty")
         String title,
 
-        @NotNull(message = "Content rating must notbe null")
+        @NotNull(message = "Content rating must not be null")
         ContentRating contentRating,
         @NotNull(message = "Release date must not be null")
         LocalDate releaseDate,

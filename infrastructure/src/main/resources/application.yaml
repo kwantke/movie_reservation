@@ -17,6 +17,13 @@ spring:
         connection.useUnicode: true
         connection.collation: utf8mb4_unicode_ci
         format_sql: true  # SQL 보기 좋게 출력
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
+
 
 logging:
   level:

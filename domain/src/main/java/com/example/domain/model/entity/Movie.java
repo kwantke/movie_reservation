@@ -1,8 +1,8 @@
 package com.example.domain.model.entity;
 
 import com.example.domain.model.base.AuditingFields;
-import com.example.domain.model.converter.ContentRatingConverter;
-import com.example.domain.model.converter.GenreConverter;
+import com.example.domain.converter.ContentRatingConverter;
+import com.example.domain.converter.GenreConverter;
 import com.example.domain.model.valueObject.ContentRating;
 import com.example.domain.model.valueObject.Genre;
 import jakarta.persistence.*;

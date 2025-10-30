@@ -1,0 +1,9 @@
+### 좌석 예약 요청 (성공 케이스)
+POST http://localhost:8080/api/v1/reservations
+Content-Type: application/json
+
+{
+  "screeningId": 1,
+  "memberId": 1,
+  "seatIds": [1,2]
+}
