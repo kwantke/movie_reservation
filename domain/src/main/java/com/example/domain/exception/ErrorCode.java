@@ -22,6 +22,9 @@ public enum ErrorCode {
   SEATS_NOT_CONSECUTIVE("Seats must be consecutive in the same row.", HttpStatus.BAD_REQUEST),
   INVALID_REQUEST("Invalid request.", HttpStatus.BAD_REQUEST),
   RESERVATION_REQUEST_FAILED("Reservation request failed.", HttpStatus.BAD_REQUEST),
+
+  // 동시성 제어 관련 에러
+  DISTRIBUTED_LOCK_FAILURE("Distributed lock acquisition failed. Please try again.", HttpStatus.LOCKED),
   ;
 
   private final String message;

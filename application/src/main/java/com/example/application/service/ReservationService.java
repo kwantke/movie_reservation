@@ -2,6 +2,7 @@ package com.example.application.service;
 
 import com.example.application.dto.request.ReservationRequestDto;
 import com.example.application.dto.response.ReservationResponseDto;
+import com.example.application.lock.DistributedLockExecutor;
 import com.example.application.port.in.ReservationServicePort;
 import com.example.application.port.out.*;
 import com.example.domain.exception.CustomException;
@@ -10,6 +11,7 @@ import com.example.domain.model.entity.*;
 import com.example.domain.validation.ReservationValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class ReservationService implements ReservationServicePort {
   private final ReservedSeatRepositoryPort reservedSeatRepositoryPort;
   private final ReservationValidation reservationValidation;
 
+  private final DistributedLockExecutor distributedLockExecutor;
+  private final TransactionTemplate transactionTemplate;
 
   @Override
   public ReservationResponseDto create(ReservationRequestDto request) {
@@ -33,8 +37,18 @@ public class ReservationService implements ReservationServicePort {
 
     List<ScreeningSeat> requestedSeats = validateReservationConstraints(screening, member, request.seatIds());
 
-    Reservation reservation = saveReservationAndSeats(screening, member, requestedSeats);
+    // 함수형 분산 락을 특정 메서드에 적용
+    String lockKey = "seat_reservation:" + request.screeningId();
+    long waitTime = 7_000; // 락 획득까지 대기할 시간
+    long leaseTime = 5_000; // STW 발생 시 대기를 고려해 충분한 시간으로 설정
 
+    Reservation reservation = null;
+
+    reservation = distributedLockExecutor.executeWithLock(lockKey, waitTime, leaseTime,
+            () -> transactionTemplate.execute(status ->
+                    saveReservationAndSeats(screening, member, requestedSeats)
+            )
+    );
 
 
     return ReservationResponseDto.fromEntity(reservation);
