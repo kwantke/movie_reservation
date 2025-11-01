@@ -33,4 +33,9 @@ public class ScreeningSeatJpaRepositoryAdapter implements ScreeningSeatRepositor
   public long countByScreeningAndSeat_IdInAndReservedIsTrue(Screening screening, List<Long> seatIds) {
     return screeningSeatJpaRepository.countByScreeningAndSeat_IdInAndReservedIsTrue(screening, seatIds);
   }
+
+  @Override
+  public void saveAll(List<ScreeningSeat> requestedSeats) {
+    screeningSeatJpaRepository.saveAll(requestedSeats);
+  }
 }

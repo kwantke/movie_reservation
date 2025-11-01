@@ -14,4 +14,6 @@ public interface ScreeningSeatRepositoryPort {
   long countReservedSeats(Long screeningId);
 
   long countByScreeningAndSeat_IdInAndReservedIsTrue(Screening screening, List<Long> seatIds);
+
+  void saveAll(List<ScreeningSeat> requestedSeats);
 }
