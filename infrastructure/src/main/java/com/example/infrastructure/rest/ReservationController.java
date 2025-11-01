@@ -3,6 +3,7 @@ package com.example.infrastructure.rest;
 import com.example.application.dto.request.ReservationRequestDto;
 import com.example.application.dto.response.ReservationResponseDto;
 import com.example.application.port.in.ReservationServicePort;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class ReservationController {
   private final ReservationServicePort reservationServicePort;
 
   @PostMapping
-  public ResponseEntity<ReservationResponseDto> createReservation(@RequestBody ReservationRequestDto reservationRequestDto) {
+  public ResponseEntity<ReservationResponseDto> createReservation(@RequestBody @Valid ReservationRequestDto reservationRequestDto) {
 
     ReservationResponseDto response = reservationServicePort.create(reservationRequestDto);
 
