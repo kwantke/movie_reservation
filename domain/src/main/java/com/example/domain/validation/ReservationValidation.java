@@ -48,4 +48,10 @@ public class ReservationValidation {
       }
     }
   }
+
+  public void checkReserved(long reservedCnt) {
+    if (reservedCnt >= 1) {
+      throw new CustomException(ErrorCode.SEAT_ALREADY_RESERVED);
+    }
+  }
 }

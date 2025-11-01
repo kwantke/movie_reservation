@@ -10,12 +10,13 @@ import com.example.domain.exception.ErrorCode;
 import com.example.domain.model.entity.*;
 import com.example.domain.validation.ReservationValidation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ReservationService implements ReservationServicePort {
@@ -35,7 +36,7 @@ public class ReservationService implements ReservationServicePort {
     Screening screening = getScreening(request.screeningId());
     Member member = getMember(request.memberId());
 
-    List<ScreeningSeat> requestedSeats = validateReservationConstraints(screening, member, request.seatIds());
+    //List<ScreeningSeat> requestedSeats = new ArrayList<>();
 
     // 함수형 분산 락을 특정 메서드에 적용
     String lockKey = "seat_reservation:" + request.screeningId();
@@ -45,13 +46,15 @@ public class ReservationService implements ReservationServicePort {
     Reservation reservation = null;
 
     reservation = distributedLockExecutor.executeWithLock(lockKey, waitTime, leaseTime,
-            () -> transactionTemplate.execute(status ->
-                    saveReservationAndSeats(screening, member, requestedSeats)
+            () -> transactionTemplate.execute(status -> {
+                      List<ScreeningSeat> requestedSeats = validateReservationConstraints(screening, member, request.seatIds());
+                      return saveReservationAndSeats(screening, member, requestedSeats);
+                    }
             )
     );
 
-
-    return ReservationResponseDto.fromEntity(reservation);
+    ReservationResponseDto result = ReservationResponseDto.fromEntity(reservation);
+    return result;
   }
 
   /** 예약 및 좌석 저장 */
@@ -77,13 +80,16 @@ public class ReservationService implements ReservationServicePort {
   /** 예약 전 비즈니스 로직 기반으로 요청 값 검증 */
   private List<ScreeningSeat> validateReservationConstraints(Screening screening, Member member, List<Long> seatIds) {
 
+    // 해당 죄석이 이미 예약되어 있는지 확인
+    reservationValidation.checkReserved(screeningSeatRepositoryPort.countByScreeningAndSeat_IdInAndReservedIsTrue(screening, seatIds));
+
     // 요청 죄석이 존재하는지 조회
     List<ScreeningSeat> requestedSeats = screeningSeatRepositoryPort.findByScreeningAndSeatIds(screening, seatIds);
 
     // 요청된 좌석 ID 목록과 조회된 좌석 리스트를 검증 레이어에서 검증
     reservationValidation.validateSeatsExist(seatIds, requestedSeats);
 
-    // 해당 회원이 이미 예약한 좌석 수 확인
+    // 해당 회원이 이미 예약한 좌석 수 확인(회원당 최대 5개 좌석 예약 가능)
     int existingReservations = reservationRepositoryPort
                                           .findByScreeningAndMemberAndReservationSeat(screening, member)
                                           .size();
@@ -95,6 +101,7 @@ public class ReservationService implements ReservationServicePort {
 
     return requestedSeats;
   }
+
 
   /** 회원 정보 조회 */
   private Member getMember(Long memberId) {
