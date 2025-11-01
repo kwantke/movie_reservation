@@ -23,4 +23,14 @@ public class ScreeningSeatJpaRepositoryAdapter implements ScreeningSeatRepositor
   public void saveAndFlush(ScreeningSeat screeningSeat) {
     screeningSeatJpaRepository.saveAndFlush(screeningSeat);
   }
+
+  @Override
+  public long countReservedSeats(Long screeningId) {
+    return screeningSeatJpaRepository.countByScreeningIdAndReservedIsTrue(screeningId);
+  }
+
+  @Override
+  public long countByScreeningAndSeat_IdInAndReservedIsTrue(Screening screening, List<Long> seatIds) {
+    return screeningSeatJpaRepository.countByScreeningAndSeat_IdInAndReservedIsTrue(screening, seatIds);
+  }
 }

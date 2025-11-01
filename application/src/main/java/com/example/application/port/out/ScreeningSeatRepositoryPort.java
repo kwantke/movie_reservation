@@ -10,4 +10,8 @@ public interface ScreeningSeatRepositoryPort {
   List<ScreeningSeat> findByScreeningAndSeatIds(Screening screening, List<Long> seatIds);
 
   void saveAndFlush(ScreeningSeat screeningSeat);
+
+  long countReservedSeats(Long screeningId);
+
+  long countByScreeningAndSeat_IdInAndReservedIsTrue(Screening screening, List<Long> seatIds);
 }
