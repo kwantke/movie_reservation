@@ -11,6 +11,7 @@ import com.example.domain.model.entity.*;
 import com.example.domain.validation.ReservationValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -44,7 +45,7 @@ public class ReservationService implements ReservationServicePort {
     long leaseTime = 5_000; // STW 발생 시 대기를 고려해 충분한 시간으로 설정
 
     Reservation reservation = null;
-
+    try {
     reservation = distributedLockExecutor.executeWithLock(lockKey, waitTime, leaseTime,
             () -> transactionTemplate.execute(status -> {
                       List<ScreeningSeat> requestedSeats = validateReservationConstraints(screening, member, request.seatIds());
@@ -52,7 +53,9 @@ public class ReservationService implements ReservationServicePort {
                     }
             )
     );
-
+    } catch (ObjectOptimisticLockingFailureException e) {
+      log.warn("[낙관락 예외 발생] 좌석 예약 실패 - 사용자 {}, {}", member.getId(), e.getMessage());
+    }
     ReservationResponseDto result = ReservationResponseDto.fromEntity(reservation);
     return result;
   }

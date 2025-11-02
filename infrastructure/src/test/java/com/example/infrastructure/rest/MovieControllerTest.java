@@ -58,6 +58,38 @@ class MovieControllerTest {
             .andExpect(jsonPath("$[0].genre").value("ACTION")); // 첫번째 결과의 장르 확인
   }
 
+
+  @DisplayName("동일 IP 요청이 Rate Limit 초과 시 429 응답을 반환하고, 타 IP는 요청이 허용된다.")
+  @Test
+  void givenRateLimitExceeded_whenGetMovies_thenReturn429() throws Exception {
+    String firstIp = "192.168.1.1";
+    String secondIp = "192.168.1.2";
+
+    // Given: 첫번째 IP에서 50번 조회 요청
+    for (int i = 0; i < 50; i++) {
+      mockMvc.perform(get("/api/v1/movies")
+                      .param("title", "Movie_20")
+                      .contentType(MediaType.APPLICATION_JSON)
+                      .header("X-Forwarded-For", firstIp))
+              .andExpect(status().isOk());
+    }
+
+    // When: 첫 번째 IP에서 51번째 요청시 Rate Limit 초과로 차단
+    mockMvc.perform(get("/api/v1/movies")
+                    .param("title", "Movie_20")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header("X-Forwarded-For", firstIp))
+            .andExpect(status().isTooManyRequests());
+
+    // Then: 다른 IP에서 요청하면 정상적으로 허용되어야 함
+    mockMvc.perform(get("/api/v1/movies")
+                    .param("title", "Movie_20")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header("X-Forwarded-For", secondIp))
+            .andExpect(status().isOk());
+
+  }
+
   @DisplayName("정상적인 영화 등록 요청 시 201 응답을 반환한다.")
   @Test
   void givenValidRequest_whenCreateMovie_thenReturn201() throws Exception {
