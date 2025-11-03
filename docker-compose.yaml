@@ -18,5 +18,25 @@ services:
       - --character-set-server=utf8mb4         # 인코딩 규칙 (유니코드 4바이트 지원)
       - --collation-server=utf8mb4_0900_ai_ci  # 정렬 규칙 (대소문자 및 액센트 구분 없음)
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./monitoring/prometheus.yaml:/etc/prometheus/prometheus.yml"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "13000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
 volumes:
   mysql_data:

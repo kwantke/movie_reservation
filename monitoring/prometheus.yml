@@ -1,0 +1,7 @@
+# prometheus.yml
+scrape_configs:
+  - job_name: 'movie-api'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:8080']  # 또는 서비스 도메인
+    metrics_path: /actuator/prometheus # 성능 측정하기 위한 api 요청 경로 설정
