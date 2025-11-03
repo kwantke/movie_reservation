@@ -1,10 +1,12 @@
 package com.example.application.exception;
 
 import com.example.domain.exception.CustomException;
+import com.example.domain.exception.ErrorCode;
 import com.example.domain.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -49,6 +51,16 @@ public class GlobalExceptionHandler {
       errors.put(error.getField(), error.getDefaultMessage());
     });
     return errors;
+  }
+
+  @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+  public ResponseEntity<ErrorResponse> handleOptimisticLockFailure(ObjectOptimisticLockingFailureException ex) {
+    ErrorResponse errorResponse = new ErrorResponse(
+            ErrorCode.OPTIMISTIC_LOCK_CONFLICT.name(),
+            ErrorCode.OPTIMISTIC_LOCK_CONFLICT.getMessage(),
+            ErrorCode.OPTIMISTIC_LOCK_CONFLICT.getHttpStatus().value()
+    );
+    return ResponseEntity.status(ErrorCode.OPTIMISTIC_LOCK_CONFLICT.getHttpStatus().value()).body(errorResponse);
   }
 
 

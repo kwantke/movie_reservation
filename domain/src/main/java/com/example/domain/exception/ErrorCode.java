@@ -22,6 +22,14 @@ public enum ErrorCode {
   SEATS_NOT_CONSECUTIVE("Seats must be consecutive in the same row.", HttpStatus.BAD_REQUEST),
   INVALID_REQUEST("Invalid request.", HttpStatus.BAD_REQUEST),
   RESERVATION_REQUEST_FAILED("Reservation request failed.", HttpStatus.BAD_REQUEST),
+
+  // 동시성 제어 관련 에러
+  DISTRIBUTED_LOCK_FAILURE("Distributed lock acquisition failed. Please try again.", HttpStatus.LOCKED),
+  OPTIMISTIC_LOCK_CONFLICT("Optimistic lock conflict. Please try again.", HttpStatus.CONFLICT),
+
+  // RateLimiter 관련 에러
+  RATE_LIMIT_EXCEED("Requests are limited to 50 times per minute. Please try again0", HttpStatus.TOO_MANY_REQUESTS ),
+  TOO_MANY_RESERVATIONS("Reservation for the same movie at the same screening time can only be made once every 5 minutes. Please try again.", HttpStatus.TOO_MANY_REQUESTS),
   ;
 
   private final String message;

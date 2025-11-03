@@ -27,4 +27,7 @@ dependencies {
 
   // Redis
   implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+  implementation("org.springframework.boot:spring-boot-starter-actuator")
+  runtimeOnly("io.micrometer:micrometer-registry-prometheus") // 선택: Prometheus 연동용
 }
